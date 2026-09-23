@@ -1,7 +1,7 @@
+import ProductSearch from '../components/product-search';
 import {
   ArrowUpRight,
   ArrowRight,
-  Search,
   Globe2,
   ShieldCheck,
   Handshake,
@@ -89,12 +89,7 @@ export default function Home() {
               business. Let’s keep your next project moving.
             </p>
             <form className="hero-search" action="/catalogue/">
-              <Search size={20} aria-hidden="true" />
-              <input
-                name="q"
-                aria-label="Search the chemical catalogue"
-                placeholder="Search by chemical name, CAS number, or synonym"
-              />
+              <ProductSearch name="q" label="Search the chemical catalogue" />
               <button className="btn" aria-label="Search catalogue">
                 <ArrowRight size={21} />
               </button>
@@ -174,7 +169,7 @@ export default function Home() {
           <div className="industry-grid">
             {industries.map((x) => (
               <a
-                href={'/catalogue/?industry=' + x.key}
+                href={'/industries/' + x.key + '/'}
                 className="industry-card"
                 key={x.key}
               >

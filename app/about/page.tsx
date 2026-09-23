@@ -99,6 +99,28 @@ export default function About() {
           </div>
         </div>
       </section>
+      <section className="container section">
+        <div className="human-contact">
+          <div className="contact-monogram" aria-hidden="true">
+            C.
+          </div>
+          <div>
+            <span className="eyebrow">Your direct contact</span>
+            <h2>A conversation with Evelyn.</h2>
+            <p>
+              Share the material, specification, and timeline. Start with an
+              email or a call, and work through the sourcing details with
+              Chemstock.
+            </p>
+            <a className="text-link" href="mailto:evelyn@chemstock.com">
+              evelyn@chemstock.com <ArrowUpRight size={17} />
+            </a>
+          </div>
+          <a className="btn outline" href="tel:+17157261437">
+            715-726-1437
+          </a>
+        </div>
+      </section>
       <CTA />
     </main>
   );

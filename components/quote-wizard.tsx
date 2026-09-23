@@ -1,4 +1,8 @@
 'use client';
+import { BasketEditor } from './quote-basket';
+import { useQuoteBasket } from '../lib/quote-basket';
+import QuoteDelivery from './quote-delivery';
+import RequirementsUpload from './requirements-upload';
 import { useRef, useState } from 'react';
 import {
   ArrowRight,
@@ -77,11 +81,17 @@ const timingOptions = [
 ];
 export default function QuoteWizard() {
   const query = useLocationSearch();
+  const basket = useQuoteBasket();
+  const [basketOverride, setBasketOverride] = useState<boolean | null>(null);
+  const usingBasket =
+    (basketOverride ?? new URLSearchParams(query).has('basket')) &&
+    basket.length > 0;
+  const [files, setFiles] = useState<File[]>([]);
   const initialProduct = new URLSearchParams(query).get('product') || '';
   const [answers, setAnswers] = useState<QuoteAnswers>({
     mode: 'known',
     product: '',
-    requirements: '',
+    requirements: new URLSearchParams(query).get('application') || '',
     cas: '',
     orderType: '',
     quantity: '',
@@ -93,10 +103,18 @@ export default function QuoteWizard() {
     company: '',
     email: '',
   });
+  const [requirementsEdited, setRequirementsEdited] = useState(false);
+  const [review, setReview] = useState<{
+    answers: QuoteAnswers;
+    files: File[];
+  } | null>(null);
   const [productEdited, setProductEdited] = useState(false);
   const values = {
     ...answers,
     product: productEdited ? answers.product : initialProduct,
+    requirements: requirementsEdited
+      ? answers.requirements
+      : new URLSearchParams(query).get('application') || answers.requirements,
   };
   const matchedProduct = products.find(
     (product) =>
@@ -106,6 +124,10 @@ export default function QuoteWizard() {
   values.cas = matchedProduct?.cas || answers.cas;
   const [step, setStep] = useState(0);
   const [ready, setReady] = useState(false);
+  const [submitted, setSubmitted] = useState<{
+    id: string;
+    preview: boolean;
+  } | null>(null);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -114,6 +136,7 @@ export default function QuoteWizard() {
     key: K,
     value: QuoteAnswers[K],
   ) {
+    if (key === 'requirements') setRequirementsEdited(true);
     if (key === 'product') setProductEdited(true);
     setAnswers((a) => ({ ...a, [key]: value }));
     setError('');
@@ -134,11 +157,22 @@ export default function QuoteWizard() {
   }
   function next() {
     if (!formRef.current?.reportValidity()) return;
-    if (step === 0 && values.mode === 'known' && !values.product.trim()) {
+    if (
+      step === 0 &&
+      !usingBasket &&
+      values.mode === 'known' &&
+      !values.product.trim()
+    ) {
       setError('Enter a chemical name or CAS number.');
       return;
     }
-    if (step === 0 && values.mode === 'help' && !values.requirements.trim()) {
+    if (
+      step === 0 &&
+      !usingBasket &&
+      values.mode === 'help' &&
+      !values.requirements.trim() &&
+      !files.length
+    ) {
       setError('Tell us briefly what you need the material to do.');
       return;
     }
@@ -148,12 +182,30 @@ export default function QuoteWizard() {
     }
     if (
       step === 1 &&
+      !usingBasket &&
       !values.quantityUnknown &&
       (!values.quantity ||
         !Number.isFinite(Number(values.quantity)) ||
         Number(values.quantity) <= 0)
     ) {
       setError('Enter an estimated quantity, or choose “Not sure yet.”');
+      return;
+    }
+    if (
+      step === 1 &&
+      usingBasket &&
+      basket.some(
+        (p) =>
+          !p.unknown &&
+          (!p.quantity ||
+            !Number.isFinite(Number(p.quantity)) ||
+            Number(p.quantity) <= 0 ||
+            Number(p.quantity) > 1000000000),
+      )
+    ) {
+      setError(
+        'Enter a valid quantity for each material, or choose quantity to discuss.',
+      );
       return;
     }
     if (step === 2 && !values.timing) {
@@ -165,13 +217,31 @@ export default function QuoteWizard() {
         setError('Add your name and company to finish the request.');
         return;
       }
+      setReview({ answers: quotePayload, files: [...files] });
       setReady(true);
       setTimeout(() => titleRef.current?.focus(), 0);
       return;
     }
     go(step + 1);
   }
-  const request = quoteEmail(values);
+  const quotePayload = {
+    ...values,
+    files: files.map((f) => f.name),
+    items: usingBasket
+      ? basket.map((item) => {
+          const p = products.find((p) => p.slug === item.slug)!;
+          return {
+            name: p.name,
+            cas: p.cas,
+            quantity: item.quantity,
+            unit: item.unit,
+            unknown: item.unknown,
+            notes: item.notes,
+          };
+        })
+      : undefined,
+  };
+  const request = quoteEmail(ready && review ? review.answers : quotePayload);
   return (
     <section id="quote-wizard" className="wizard-shell">
       <div className="wizard-intro">
@@ -217,7 +287,11 @@ export default function QuoteWizard() {
         <div className="wizard-progress">
           <div className="wizard-step-label">
             <span>
-              {ready ? 'Ready to send' : `Step ${step + 1} of ${steps.length}`}
+              {submitted
+                ? 'Saved'
+                : ready
+                  ? 'Ready to send'
+                  : `Step ${step + 1} of ${steps.length}`}
             </span>
             <span>{ready ? 'Your request' : steps[step]}</span>
           </div>
@@ -249,19 +323,34 @@ export default function QuoteWizard() {
               <Mail size={30} />
             </div>
             <h2 tabIndex={-1} ref={titleRef}>
-              Your request is ready.
+              {submitted
+                ? submitted.preview
+                  ? 'Preview request saved.'
+                  : 'Your request has been received.'
+                : 'Your request is ready.'}
             </h2>
             <p>
-              Open your email app to review and send it to Chemstock.{' '}
-              <strong>Nothing has been sent yet.</strong>
+              {submitted ? (
+                <>
+                  Reference: <strong>{submitted.id}</strong>
+                </>
+              ) : (
+                <>
+                  Review your details and send your request.{' '}
+                  <strong>Nothing has been sent yet.</strong>
+                </>
+              )}
             </p>
             <div className="request-preview">
               <span>To: evelyn@chemstock.com</span>
               <pre>{request.body}</pre>
             </div>
-            <a className="btn wizard-next" href={request.href}>
-              Open email & send request <ArrowUpRight size={19} />
-            </a>
+            <QuoteDelivery
+              answers={review?.answers || quotePayload}
+              files={review?.files || files}
+              emailHref={request.href}
+              onSaved={(id, preview) => setSubmitted({ id, preview })}
+            />
             <button
               type="button"
               className="copy-request"
@@ -288,6 +377,8 @@ export default function QuoteWizard() {
               className="text-link"
               onClick={() => {
                 setReady(false);
+                setSubmitted(null);
+                setReview(null);
                 go(3);
               }}
             >
@@ -313,115 +404,137 @@ export default function QuoteWizard() {
                     What are you looking for?
                   </h2>
                   <p>Choose a chemical or tell us about your application.</p>
-                  <RadioGroup
-                    className="mode-choices"
-                    value={values.mode}
-                    onValueChange={(v) => update('mode', String(v))}
-                    aria-label="How can we help source your material?"
-                  >
-                    <label
-                      htmlFor="mode-known"
-                      className={
-                        'mode-choice ' +
-                        (values.mode === 'known' ? 'selected' : '')
-                      }
+                  {basket.length > 0 && (
+                    <button
+                      type="button"
+                      className="basket-mode"
+                      aria-pressed={usingBasket}
+                      onClick={() => setBasketOverride(!usingBasket)}
                     >
-                      <RadioGroupItem id="mode-known" value="known" />
-                      <Search size={18} />
-                      <span>I know the chemical</span>
-                    </label>
-                    <label
-                      htmlFor="mode-help"
-                      className={
-                        'mode-choice ' +
-                        (values.mode === 'help' ? 'selected' : '')
-                      }
-                    >
-                      <RadioGroupItem id="mode-help" value="help" />
-                      <Lightbulb size={18} />
-                      <span>I need sourcing help</span>
-                    </label>
-                  </RadioGroup>
-                  {values.mode === 'known' ? (
-                    <>
-                      <label className="wizard-field">
-                        Chemical name or CAS number{' '}
-                        <span aria-hidden="true">*</span>
-                        <input
-                          name="product"
-                          required
-                          maxLength={150}
-                          value={values.product}
-                          onChange={(e) => {
-                            update('product', e.target.value);
-                            update('cas', '');
-                          }}
-                          placeholder="e.g. Sebacic Acid or 111-20-6"
-                          autoComplete="off"
-                        />
-                      </label>
-                      <div className="suggested-products">
-                        <span>From our catalogue</span>
-                        <div>
-                          {products
-                            .filter((p) =>
-                              [
-                                'maleic-acid',
-                                'sebacic-acid',
-                                'methyl-methacrylate',
-                              ].includes(p.slug),
-                            )
-                            .map((p) => (
-                              <button
-                                key={p.slug}
-                                type="button"
-                                onClick={() => {
-                                  update('product', p.name);
-                                  update('cas', p.cas);
-                                }}
-                              >
-                                {p.name} <span>+</span>
-                              </button>
-                            ))}
-                        </div>
-                      </div>
-                      <Accordion className="wizard-optional">
-                        <AccordionItem value="details">
-                          <AccordionTrigger>
-                            Add specifications or context{' '}
-                            <span className="optional-label">Optional</span>
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            <label className="wizard-field">
-                              Grade, application, or other requirements
-                              <textarea
-                                rows={3}
-                                maxLength={700}
-                                value={values.requirements}
-                                onChange={(e) =>
-                                  update('requirements', e.target.value)
-                                }
-                                placeholder="Purity, grade, packaging, or specifications your team needs"
-                              />
-                            </label>
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                    </>
-                  ) : (
-                    <label className="wizard-field">
-                      What do you need the material to do?{' '}
-                      <span aria-hidden="true">*</span>
-                      <textarea
-                        rows={4}
-                        required
-                        maxLength={700}
-                        value={values.requirements}
-                        onChange={(e) => update('requirements', e.target.value)}
-                        placeholder="Tell us about your application, target performance, or hard-to-find material."
-                      />
-                    </label>
+                      {usingBasket
+                        ? '✓ Using your quote list'
+                        : 'Use your saved quote list'}{' '}
+                      · {basket.length} products
+                    </button>
                   )}
+                  {usingBasket ? (
+                    <BasketEditor />
+                  ) : (
+                    <>
+                      <RadioGroup
+                        className="mode-choices"
+                        value={values.mode}
+                        onValueChange={(v) => update('mode', String(v))}
+                        aria-label="How can we help source your material?"
+                      >
+                        <label
+                          htmlFor="mode-known"
+                          className={
+                            'mode-choice ' +
+                            (values.mode === 'known' ? 'selected' : '')
+                          }
+                        >
+                          <RadioGroupItem id="mode-known" value="known" />
+                          <Search size={18} />
+                          <span>I know the chemical</span>
+                        </label>
+                        <label
+                          htmlFor="mode-help"
+                          className={
+                            'mode-choice ' +
+                            (values.mode === 'help' ? 'selected' : '')
+                          }
+                        >
+                          <RadioGroupItem id="mode-help" value="help" />
+                          <Lightbulb size={18} />
+                          <span>I need sourcing help</span>
+                        </label>
+                      </RadioGroup>
+                      {values.mode === 'known' ? (
+                        <>
+                          <label className="wizard-field">
+                            Chemical name or CAS number{' '}
+                            <span aria-hidden="true">*</span>
+                            <input
+                              name="product"
+                              required
+                              maxLength={150}
+                              value={values.product}
+                              onChange={(e) => {
+                                update('product', e.target.value);
+                                update('cas', '');
+                              }}
+                              placeholder="e.g. Sebacic Acid or 111-20-6"
+                              autoComplete="off"
+                            />
+                          </label>
+                          <div className="suggested-products">
+                            <span>From our catalogue</span>
+                            <div>
+                              {products
+                                .filter((p) =>
+                                  [
+                                    'maleic-acid',
+                                    'sebacic-acid',
+                                    'methyl-methacrylate',
+                                  ].includes(p.slug),
+                                )
+                                .map((p) => (
+                                  <button
+                                    key={p.slug}
+                                    type="button"
+                                    onClick={() => {
+                                      update('product', p.name);
+                                      update('cas', p.cas);
+                                    }}
+                                  >
+                                    {p.name} <span>+</span>
+                                  </button>
+                                ))}
+                            </div>
+                          </div>
+                          <Accordion className="wizard-optional">
+                            <AccordionItem value="details">
+                              <AccordionTrigger>
+                                Add specifications or context{' '}
+                                <span className="optional-label">Optional</span>
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                <label className="wizard-field">
+                                  Grade, application, or other requirements
+                                  <textarea
+                                    rows={3}
+                                    maxLength={700}
+                                    value={values.requirements}
+                                    onChange={(e) =>
+                                      update('requirements', e.target.value)
+                                    }
+                                    placeholder="Purity, grade, packaging, or specifications your team needs"
+                                  />
+                                </label>
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                        </>
+                      ) : (
+                        <label className="wizard-field">
+                          What do you need the material to do?{' '}
+                          <span aria-hidden="true">*</span>
+                          <textarea
+                            rows={4}
+                            required={!files.length}
+                            maxLength={700}
+                            value={values.requirements}
+                            onChange={(e) =>
+                              update('requirements', e.target.value)
+                            }
+                            placeholder="Tell us about your application, target performance, or hard-to-find material."
+                          />
+                        </label>
+                      )}
+                    </>
+                  )}
+                  <RequirementsUpload files={files} onChange={setFiles} />
                 </>
               )}
               {step === 1 && (
@@ -452,67 +565,78 @@ export default function QuoteWizard() {
                       </label>
                     ))}
                   </RadioGroup>
-                  <div className="quantity-fields">
-                    <label className="wizard-field">
-                      Estimated quantity
-                      {!values.quantityUnknown && (
-                        <span aria-hidden="true"> *</span>
-                      )}
-                      <input
-                        type="number"
-                        name="quantity"
-                        min="0.001"
-                        step="any"
-                        max="1000000000"
-                        required={!values.quantityUnknown}
-                        disabled={values.quantityUnknown}
-                        value={values.quantity}
-                        onChange={(e) => update('quantity', e.target.value)}
-                        placeholder="e.g. 1,000"
-                      />
-                    </label>
-                    <div className="wizard-field">
-                      <label htmlFor="quantity-unit">Unit</label>
-                      <Select
-                        value={values.unit}
-                        onValueChange={(v) => update('unit', v || 'kg')}
-                        disabled={values.quantityUnknown}
-                      >
-                        <SelectTrigger
-                          className="filter-select"
-                          id="quantity-unit"
-                        >
-                          <SelectValue>{values.unit}</SelectValue>
-                        </SelectTrigger>
-                        <SelectContent className="select-options">
-                          {['kg', 'lb', 'metric tons', 'liters', 'gallons'].map(
-                            (u) => (
-                              <SelectItem key={u} value={u}>
-                                {u}
-                              </SelectItem>
-                            ),
+                  {usingBasket ? (
+                    <BasketEditor quantities />
+                  ) : (
+                    <>
+                      <div className="quantity-fields">
+                        <label className="wizard-field">
+                          Estimated quantity
+                          {!values.quantityUnknown && (
+                            <span aria-hidden="true"> *</span>
                           )}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <button
-                    className={
-                      'not-sure ' + (values.quantityUnknown ? 'selected' : '')
-                    }
-                    type="button"
-                    aria-pressed={values.quantityUnknown}
-                    onClick={() =>
-                      update('quantityUnknown', !values.quantityUnknown)
-                    }
-                  >
-                    {values.quantityUnknown ? (
-                      <Check size={16} />
-                    ) : (
-                      <Lightbulb size={16} />
-                    )}
-                    Not sure yet—let’s discuss it
-                  </button>
+                          <input
+                            type="number"
+                            name="quantity"
+                            min="0.001"
+                            step="any"
+                            max="1000000000"
+                            required={!values.quantityUnknown}
+                            disabled={values.quantityUnknown}
+                            value={values.quantity}
+                            onChange={(e) => update('quantity', e.target.value)}
+                            placeholder="e.g. 1,000"
+                          />
+                        </label>
+                        <div className="wizard-field">
+                          <label htmlFor="quantity-unit">Unit</label>
+                          <Select
+                            value={values.unit}
+                            onValueChange={(v) => update('unit', v || 'kg')}
+                            disabled={values.quantityUnknown}
+                          >
+                            <SelectTrigger
+                              className="filter-select"
+                              id="quantity-unit"
+                            >
+                              <SelectValue>{values.unit}</SelectValue>
+                            </SelectTrigger>
+                            <SelectContent className="select-options">
+                              {[
+                                'kg',
+                                'lb',
+                                'metric tons',
+                                'liters',
+                                'gallons',
+                              ].map((u) => (
+                                <SelectItem key={u} value={u}>
+                                  {u}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <button
+                        className={
+                          'not-sure ' +
+                          (values.quantityUnknown ? 'selected' : '')
+                        }
+                        type="button"
+                        aria-pressed={values.quantityUnknown}
+                        onClick={() =>
+                          update('quantityUnknown', !values.quantityUnknown)
+                        }
+                      >
+                        {values.quantityUnknown ? (
+                          <Check size={16} />
+                        ) : (
+                          <Lightbulb size={16} />
+                        )}
+                        Not sure yet—let’s discuss it
+                      </button>
+                    </>
+                  )}
                 </>
               )}
               {step === 2 && (
@@ -621,17 +745,21 @@ export default function QuoteWizard() {
                       <div>
                         <dt>Material</dt>
                         <dd>
-                          {values.mode === 'help'
-                            ? 'Sourcing assistance'
-                            : values.product}
+                          {usingBasket
+                            ? `${basket.length} products in your quote list`
+                            : values.mode === 'help'
+                              ? 'Sourcing assistance'
+                              : values.product}
                         </dd>
                       </div>
                       <div>
                         <dt>Quantity</dt>
                         <dd>
-                          {values.quantityUnknown
-                            ? 'To discuss'
-                            : values.quantity + ' ' + values.unit}{' '}
+                          {usingBasket
+                            ? 'Specified per product'
+                            : values.quantityUnknown
+                              ? 'To discuss'
+                              : values.quantity + ' ' + values.unit}{' '}
                           · {values.orderType}
                         </dd>
                       </div>
@@ -648,8 +776,8 @@ export default function QuoteWizard() {
                     </dl>
                   </div>
                   <p className="wizard-note">
-                    Next, review and send your request through your email app.
-                    See our <a href="/privacy/">privacy policy</a>.
+                    Next, review your request before submitting it. See our{' '}
+                    <a href="/privacy/">privacy policy</a>.
                   </p>
                 </>
               )}
@@ -675,7 +803,7 @@ export default function QuoteWizard() {
                 </span>
               )}
               <button type="submit" className="btn wizard-next">
-                {step === 3 ? 'Review email request' : 'Continue'}
+                {step === 3 ? 'Review request' : 'Continue'}
                 <ArrowRight size={18} />
               </button>
             </div>

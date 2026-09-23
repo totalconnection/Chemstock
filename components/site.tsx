@@ -1,4 +1,5 @@
 import { ArrowUpRight, Menu } from 'lucide-react';
+import { QuoteListLink } from './quote-basket';
 export function Brand() {
   return (
     <a className="brand" href="/" aria-label="Chemstock home">
@@ -33,6 +34,7 @@ const links = [
   ['Catalogue', '/catalogue/'],
   ['Industries', '/industries/'],
   ['About us', '/about/'],
+  ['Blog', '/blog/'],
   ['Contact', '/contact/'],
 ];
 export function Header() {
@@ -61,6 +63,7 @@ export function Header() {
                 {label}
               </a>
             ))}
+            <QuoteListLink />
             <a className="btn" href="/quote/">
               Request a quote <ArrowUpRight size={18} />
             </a>
@@ -75,6 +78,7 @@ export function Header() {
                   {label}
                 </a>
               ))}
+              <QuoteListLink />
               <a className="btn" href="/quote/">
                 Request a quote <ArrowUpRight size={18} />
               </a>
@@ -104,6 +108,7 @@ export function Footer() {
               <a href="/catalogue/">Chemical catalogue</a>
               <a href="/industries/">Industries we serve</a>
               <a href="/about/">About Chemstock</a>
+              <a href="/blog/">Blog</a>
             </div>
           </div>
           <div>

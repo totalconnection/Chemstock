@@ -18,8 +18,8 @@ export default function Industries() {
                 <span className="number">0{i + 1} /</span>
                 <h2>{x.name}</h2>
                 <p>{x.description}</p>
-                <a className="text-link" href={'/catalogue/?industry=' + x.key}>
-                  Explore materials <ArrowUpRight size={18} />
+                <a className="text-link" href={'/industries/' + x.key + '/'}>
+                  Explore this industry <ArrowUpRight size={18} />
                 </a>
               </article>
             ))}

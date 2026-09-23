@@ -1,3 +1,4 @@
+import { AddToQuote } from '../../../components/quote-basket';
 import { notFound } from 'next/navigation';
 import {
   ArrowUpRight,
@@ -125,6 +126,7 @@ export default async function ProductPage({
                 </div>
               </div>
               <div className="chemical-hero-actions">
+                <AddToQuote slug={p.slug} />
                 <a
                   href={'/quote/?product=' + encodeURIComponent(p.name)}
                   className="btn navy"

@@ -4,7 +4,7 @@
 
 Source repository: https://github.com/totalconnection/Chemstock
 
-Recommended production host: Cloudflare Pages connected to this GitHub repository. Railway is not required. This build exports static HTML, CSS, and JavaScript and has no server-side runtime, database, secrets, or monthly application server requirement.
+Recommended production host: Cloudflare Pages connected to this GitHub repository. Railway is not required. The frontend exports static HTML, CSS, and JavaScript. The quote backend uses separate Cloudflare Pages Functions with private R2 storage. Live bindings and email delivery are deferred at the user's request; the local preview uses private filesystem storage. See LEADS.md.
 
 Cloudflare Pages configuration:
 
@@ -25,7 +25,7 @@ Home, About, Industries, Contact, Request a quote, Chemical catalogue with indiv
 
 The catalogue combines Chemstock's individual published product pages with its five-page specialty-chemicals brochure. Search accepts product names, verified CAS numbers, synonyms, formulas, families, and application terms. Chemical-family, industry, and physical-form filters and 24-result pagination support the larger collection. Brochure-only entries have not been enriched with guessed identities, specifications, certifications, or availability. Source-listed commercial grades are product records, not necessarily distinct pure substances. Incomplete source names require business review.
 
-The four-step quote wizard collects material, quantity, timing, and contact details, then prepares a mailto draft. It does not submit, store, or send anything on its own. A visitor must open and send the draft in their email client. Replace this with a connected form service or server endpoint if browser-only submissions and lead tracking are needed. Railway is one possible backend host, not a prerequisite; Cloudflare Functions or a form service would also work.
+The quote wizard supports multiple materials, per-item quantities, files, and direct submission when the lead service is configured. Local preview records are saved privately on the development computer. Production uses private R2 storage and notifications to evelyn@chemstock.com through an authenticated email provider. Email-app handoff remains available as a fallback. Hosting and email connections have not been activated.
 
 Enterprise product pages separate published typical specifications from general reference properties, with source links. SDS, TDS, CoA, and supplier certifications remain available on request; no compliance or supplier certification is inferred from a reference source.
 
@@ -43,7 +43,10 @@ Enterprise product pages separate published typical specifications from general 
 
 Hero image copied from the user's existing Chemstock website:
 https://chemstock.com/wp-content/uploads/2022/09/AdobeStock_199067491-scaled.jpeg
-No new stock photo license was purchased.
+Additional application images reused from the existing Chemstock site:
+https://chemstock.com/wp-content/uploads/2022/09/what-are-the-uses-of-plasticizers-scaled.jpeg
+https://chemstock.com/wp-content/uploads/2022/09/Solvent-Applications-scaled.jpeg
+These are application illustrations, not claims of Chemstock-owned facilities. No new stock photo license was purchased.
 
 Logo: code-native geometric C / chemical-ring concept retained at the user's request. The palette now uses cobalt, red, charcoal, and white. Vector source is editable. Unselected ImageGen explorations remain local design references and are not applied to the website.
 

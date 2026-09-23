@@ -38,3 +38,6 @@ next-env.d.ts
 /work/
 
 *.tsbuildinfo
+
+# Private local lead data and admin access key
+/.leads/

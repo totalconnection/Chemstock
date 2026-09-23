@@ -28,19 +28,25 @@ export default function Privacy() {
       </p>
       <h2>The quote request tool</h2>
       <p>
-        The quote tool prepares an email using details entered into the page.
-        Preparing a draft does not submit a request to Chemstock. The draft
-        opens in your email application, where you can review and send it.
-        Details entered into the form are not saved to a customer account or a
-        website database in this version.
+        Your quote list stores selected products, quantities, and product notes
+        in this browser so you can continue browsing. Removing products clears
+        those entries. Contact details and selected files are kept in the
+        current page until you submit or leave it. When direct submission is
+        enabled, request details and files are stored by the lead service and
+        used for sourcing follow-up. The local preview saves test requests only
+        on the preview computer; live delivery is not connected yet. If you
+        choose email instead, review and send the draft in your email
+        application and attach files there.
       </p>
       <h2>Website operation</h2>
       <p>
         The hosting provider may process technical information, including IP
-        addresses and request logs, to deliver and protect the website. This
-        version of the site does not include advertising pixels, third-party
-        analytics, or a newsletter signup. External websites and your email
-        provider operate under their own privacy policies.
+        addresses and request logs, to deliver and protect the website. When
+        enabled, Cloudflare Turnstile processes verification information to
+        protect quote submissions. This version of the site does not include
+        advertising pixels, third-party analytics, or a newsletter signup.
+        External websites and your email provider operate under their own
+        privacy policies.
       </p>
       <h2>Using and sharing inquiry information</h2>
       <p>

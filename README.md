@@ -19,8 +19,8 @@ npm run build
 
 The static export can be hosted on Cloudflare Pages. See [launch notes](docs/LAUNCH.md) for hosting configuration, content sources, current scope, and the remaining production review items.
 
-No Railway service or application database is required for the current implementation. Quote requests are prepared as email drafts; they are not sent or stored by the website.
+No Railway service is required. The local preview stores leads as private CSV and JSON records in `.leads/`, with separate attachment files. `/leads/` provides authenticated review and CSV export. Live Cloudflare storage and email delivery are deliberately not connected yet. See [backend setup](docs/LEADS.md).
 
 Product pages include sourced identity and reference properties, typical published specifications, procurement guidance, and documentation available on request. These references do not establish supplier certification or replace a current product SDS or lot-specific CoA.
 
-The four-step quote wizard collects material, quantity, timing, and contact details before preparing an email. The site uses cobalt, red, charcoal, and white. Logo concepts are under review; generated concept artwork is not a final vector identity.
+The four-step quote wizard supports a multi-product list, per-product quantities, specification files, and request references. Industry guides and a Blog page are included; no blog posts are published. The site uses cobalt, red, charcoal, and white and retains the selected logo.

@@ -1,4 +1,6 @@
 'use client';
+import ProductSearch from './product-search';
+import { AddToQuote } from './quote-basket';
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { Search, ArrowUpRight, SlidersHorizontal, X } from 'lucide-react';
@@ -202,20 +204,7 @@ export default function Catalogue() {
         </div>
       </aside>
       <div>
-        <div className="catalogue-search">
-          <Search size={21} />
-          <input
-            aria-label="Search chemicals"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Chemical name, CAS number, formula, or synonym"
-          />
-          {q && (
-            <button aria-label="Clear search" onClick={() => setQ('')}>
-              <X size={18} />
-            </button>
-          )}
-        </div>
+        <ProductSearch value={q} onChange={setQ} />
         <div className="results-bar">
           <span aria-live="polite">
             {results.length} {results.length === 1 ? 'product' : 'products'}
@@ -244,6 +233,7 @@ export default function Catalogue() {
                   <span>{p.form}</span>
                 </div>
                 <p>{p.description}</p>
+                <AddToQuote slug={p.slug} />
                 <div className="tags">
                   {p.applications.slice(0, 2).map((x) => (
                     <span key={x}>{x}</span>
