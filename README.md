@@ -23,4 +23,4 @@ No Railway service is required. The local preview stores leads as private CSV an
 
 Product pages include sourced identity and reference properties, typical published specifications, procurement guidance, and documentation available on request. These references do not establish supplier certification or replace a current product SDS or lot-specific CoA.
 
-The four-step quote wizard supports a multi-product list, per-product quantities, specification files, and request references. Industry guides and a Blog page are included; no blog posts are published. The site uses cobalt, red, charcoal, and white and retains the selected logo.
+The four-step quote wizard supports a multi-product list, per-product quantities, specification files, and request references. Industry guides and ten approved chemical purchasing articles are included. Blog content is stored in lib/blog-posts.json; production builds include the listing and article routes in the sitemap. The site uses cobalt, red, charcoal, and white and retains the selected logo.

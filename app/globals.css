@@ -3828,3 +3828,26 @@ h3 {
   padding: 8px 0;
   font-size: 0.9rem;
 }
+
+/* Published purchasing guides */
+.published-blog-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; padding-bottom:88px; }
+.published-blog-card { border:1px solid #dce2ea; padding:32px; background:#fff; display:flex; flex-direction:column; align-items:flex-start; }
+.published-blog-card h2 { font-size:25px; line-height:1.3; margin:15px 0; }
+.published-blog-card h2 a { color:inherit; }
+.published-blog-card p { color:#48576b; line-height:1.65; margin-bottom:24px; }
+.published-blog-meta { display:flex; gap:18px; flex-wrap:wrap; color:#536174; font-size:14px; margin-bottom:24px; }
+.published-blog-card .published-blog-meta { margin-top:auto; }
+.published-blog-article { max-width:900px; padding-top:48px; padding-bottom:88px; }
+.published-blog-heading { margin:40px 0 36px; }
+.published-blog-heading h1 { font-size:clamp(32px,5vw,52px); line-height:1.13; letter-spacing:-.03em; margin:18px 0 24px; }
+.published-blog-body { font-size:18px; line-height:1.8; color:#263446; overflow-wrap:anywhere; }
+.published-blog-body p { margin:0 0 24px; }
+.published-blog-body h2 { font-size:28px; line-height:1.3; margin:48px 0 20px; color:#11264a; }
+.published-blog-body h3 { font-size:23px; margin:32px 0 16px; }
+.published-blog-body a { color:#164cc0; text-decoration:underline; text-underline-offset:3px; }
+.published-blog-body .table-scroll { overflow-x:auto; margin:28px 0; }
+.published-blog-body table { width:100%; border-collapse:collapse; font-size:16px; line-height:1.55; }
+.published-blog-body th,.published-blog-body td { padding:14px; border:1px solid #ccd5e2; text-align:left; vertical-align:top; }
+.published-blog-body th { background:#edf2fa; color:#11264a; }
+.published-blog-body ul { padding-left:24px; margin-bottom:24px; }
+@media(max-width:700px) { .published-blog-grid { grid-template-columns:1fr; } .published-blog-card { padding:24px; } .published-blog-article { padding-top:30px; } .published-blog-body { font-size:17px; } .published-blog-body h2 { font-size:25px; } }

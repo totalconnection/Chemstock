@@ -1,38 +1,29 @@
 import { pageMetadata } from '../../lib/seo';
-import { ArrowUpRight, BookOpen } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import posts from '../../lib/blog-posts.json';
 export const metadata = pageMetadata(
-  'Blog',
-  'Chemical sourcing and industry articles from Chemstock. No articles are published yet; explore our catalogue or contact the sourcing team.',
+  'Chemical Purchasing Guides',
+  'Practical guides to DINP, DOTP, DIDP, DOS and sebacic acid: compare costs, evaluate specifications and prepare your next chemical purchase.',
   '/blog/',
-  true,
 );
 export default function Blog() {
   return (
     <main id="main">
       <section className="blog-hero container">
         <span className="eyebrow">The Chemstock blog</span>
-        <h1>Blog</h1>
-        <p>Perspectives on materials, applications, and chemical sourcing.</p>
+        <h1>Chemical purchasing guides</h1>
+        <p>Practical guidance for comparing materials, reviewing specifications and planning your next purchase.</p>
       </section>
-      <section className="container blog-empty">
-        <div className="blog-empty-icon">
-          <BookOpen size={32} strokeWidth={1.3} />
-        </div>
-        <div>
-          <h2>No articles published yet.</h2>
-          <p>
-            There are no published posts yet. In the meantime, explore the
-            catalogue or talk with our sourcing team.
-          </p>
-          <div className="hero-bottom">
-            <a className="text-link" href="/catalogue/">
-              Explore materials <ArrowUpRight size={17} />
-            </a>
-            <a className="text-link" href="/contact/">
-              Contact Chemstock <ArrowUpRight size={17} />
-            </a>
-          </div>
-        </div>
+      <section className="container published-blog-grid" aria-label="Articles">
+        {posts.map((post) => (
+          <article className="published-blog-card" key={post.slug}>
+            <span className="eyebrow">{post.product}</span>
+            <h2><a href={`/blog/${post.slug}/`}>{post.title}</a></h2>
+            <p>{post.description}</p>
+            <div className="published-blog-meta"><time dateTime={post.publishedAt}>September 23, 2026</time><span>{Math.ceil(post.wordCount / 200)} min read</span></div>
+            <a className="text-link" href={`/blog/${post.slug}/`}>Read guide <ArrowUpRight size={17} /></a>
+          </article>
+        ))}
       </section>
     </main>
   );

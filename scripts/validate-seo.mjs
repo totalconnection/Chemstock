@@ -3,7 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 const root = path.resolve('out');
 const production = process.env.CHEMSTOCK_INDEXABLE === 'true';
-const excluded = new Set(['/blog/', '/leads/']);
+const excluded = new Set(['/leads/']);
 const titles = new Set(),
   canonicals = new Set();
 let count = 0,

@@ -25,7 +25,7 @@ console.log('Static website prepared in out/');
 const { readFile, writeFile } = await import('node:fs/promises');
 const production = process.env.CHEMSTOCK_INDEXABLE === 'true';
 const origin = 'https://chemstock.com';
-const excluded = new Set(['/leads/', '/blog/', '/404/']);
+const excluded = new Set(['/leads/', '/404/']);
 const urls = [];
 async function collect(directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -64,7 +64,7 @@ let headers = await readFile(path.join(output, '_headers'), 'utf8');
 if (production)
   headers = headers.replace(/  X-Robots-Tag: noindex, nofollow\n/g, '');
 headers +=
-  '\n/leads*\n  X-Robots-Tag: noindex, nofollow\n/api/*\n  X-Robots-Tag: noindex, nofollow\n/blog*\n  X-Robots-Tag: noindex, follow\n';
+  '\n/leads*\n  X-Robots-Tag: noindex, nofollow\n/api/*\n  X-Robots-Tag: noindex, nofollow\n';
 await writeFile(path.join(output, '_headers'), headers);
 console.log(
   `SEO assets: ${urls.length} sitemap URLs; ${production ? 'production indexing enabled' : 'preview indexing blocked'}.`,
