@@ -3,6 +3,7 @@ import { StructuredData } from '../components/structured-data';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Header, Footer } from '../components/site';
+import { Analytics } from '../components/analytics';
 export const metadata: Metadata = {
   title: {
     default: 'Chemstock | Specialty Chemical Sourcing',
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
