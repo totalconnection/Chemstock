@@ -2,7 +2,17 @@
 
 ## Current state
 
-Implemented and tested locally. Live storage, public hosting, and email delivery are **not connected**, as requested. No notification emails were sent during development.
+The site is deployed at https://chemstock.pages.dev under the approved Cloudflare account. On September 23, 2026, the following production-environment connections were configured:
+
+- Private R2 bucket `chemstock-leads`, bound as `LEADS` (public access disabled by default).
+- Verified Resend domain `notifications.chemstock.com`; GoDaddy published the DKIM and sending CNAME records. The existing Microsoft 365 MX record remains unchanged.
+- Domain-restricted, sending-only Resend key stored as encrypted `RESEND_API_KEY`.
+- `EMAIL_FROM`: `Chemstock Quotes <quotes@notifications.chemstock.com>`.
+- Turnstile widget for `chemstock.pages.dev` and `chemstock.com`, with site key and encrypted server secret configured.
+
+Deployment `18a6d9ae-4c7d-4401-add8-f789f8f905c0` succeeded with these settings. The user explicitly chose to skip the end-to-end delivery test; no setup request was submitted. On September 23, the user approved enabling administrative dashboard access, and `ADMIN_TOKEN` was saved as an encrypted production secret. The private local key is held in `.leads/production-admin-token.txt` and is not committed. Do not confuse it with the separate local-preview key. Configuration deployment `2ffa0be1-e127-44e0-a66a-713ba0a7b02d` succeeded and applied it.
+
+The main Chemstock.com site and nameservers have not been switched. Search indexing remains disabled on staging.
 
 `npm run dev` starts the lead API alongside the preview. Local submissions save into `.leads/` (ignored by Git and blocked from Vite file serving):
 
@@ -15,7 +25,7 @@ Visit `/leads/`, enter the key from `.leads/admin-token.txt`, then review leads 
 
 The local preview intentionally never sends email, even if production credentials exist elsewhere. The UI labels preview saves accordingly. Files persist across local server restarts. Back up `.leads/` privately if retaining local records.
 
-## Later: production connection
+## Production configuration reference
 
 Use Cloudflare Pages with frontend output `out`, build `npm run build`, and root `functions/` included in the deployment. Do not deploy only `out` if enabling the backend. The backend is independent of Vinext SSR and does not expose the development server.
 
@@ -28,7 +38,7 @@ Configure:
 
 The service stores a lead before trying notification. Failed or unconfigured notifications remain visible in the workspace, with a retry action. Provider idempotency keys use the lead reference. Large specification files are stored privately and accessed in the workspace rather than attached to notification emails.
 
-Production configuration must be tested with an explicitly authorized real delivery when connected. No such delivery has been performed. Add host-level rate limits, set retention/access policy, and configure backups before accepting public leads. No automatic deletion schedule or virus scanner is enabled; uploaded documents are served only as downloads to authenticated staff and should be treated as untrusted files.
+End-to-end delivery verification was skipped at the user’s request. No real test delivery has been performed. Add host-level rate limits, set retention/access policy, and configure backups before accepting public leads. No automatic deletion schedule or virus scanner is enabled; uploaded documents are served only as downloads to authenticated staff and should be treated as untrusted files.
 
 ## Verification
 

@@ -11,6 +11,9 @@ export default function Accessibility() {
       title="Accessibility"
       description="Making chemical sourcing information easier to access and use."
     >
+      <p>
+        <strong>Last updated September 23, 2026</strong>
+      </p>
       <h2>Our approach</h2>
       <p>
         We want people with a range of abilities and assistive technologies to
@@ -56,6 +59,15 @@ export default function Accessibility() {
         accessibility characteristics. If you need help accessing a
         specification or safety data sheet, contact us with the product name and
         your preferred format.
+      </p>
+      <h2>Alternative ways to request a quote</h2>
+      <p>
+        If the multi-step quote tool, file upload, or Cloudflare security
+        verification prevents you from completing a request, email or call our
+        team using the details below. You can describe your material, quantity,
+        and delivery requirements directly without completing the online wizard.
+        Supplier PDFs and other documents may not be fully accessible; tell us
+        which information or alternative format you need.
       </p>
       <h2>Tell us about a barrier</h2>
       <p>
