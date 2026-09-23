@@ -117,8 +117,8 @@ export default function About() {
               email or a call, and work through the sourcing details with
               Chemstock.
             </p>
-            <a className="text-link" href="mailto:evelyn@chemstock.com">
-              evelyn@chemstock.com <ArrowUpRight size={17} />
+            <a className="text-link" href="mailto:sourcing@chemstock.com">
+              sourcing@chemstock.com <ArrowUpRight size={17} />
             </a>
           </div>
           <a className="btn outline" href="tel:+17157261437">

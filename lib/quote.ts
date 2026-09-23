@@ -65,7 +65,7 @@ export function quoteEmail(answers: QuoteAnswers) {
   return {
     body,
     href:
-      'mailto:evelyn@chemstock.com?subject=' +
+      'mailto:sourcing@chemstock.com?subject=' +
       encodeURIComponent('Chemical sourcing request: ' + material) +
       '&body=' +
       encodeURIComponent(body),

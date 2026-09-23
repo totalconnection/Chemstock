@@ -199,7 +199,7 @@ async function notify(env: LeadEnvironment, lead: SavedLead, origin: string) {
       },
       body: JSON.stringify({
         from: env.EMAIL_FROM,
-        to: ['evelyn@chemstock.com'],
+        to: ['sourcing@chemstock.com'],
         reply_to: lead.answers.email,
         subject: 'New Chemstock request · ' + lead.id,
         text:
@@ -250,7 +250,7 @@ export async function handleLeads(
     return json(
       {
         error:
-          'Quote submission is not available yet. Please email evelyn@chemstock.com.',
+          'Quote submission is not available yet. Please email sourcing@chemstock.com.',
       },
       503,
     );

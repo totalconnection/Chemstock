@@ -174,7 +174,7 @@ export default function Home() {
           </p>
           <div className="home-contact-line">
             <span>Contact Evelyn</span>
-            <a href="mailto:evelyn@chemstock.com">evelyn@chemstock.com</a>
+            <a href="mailto:sourcing@chemstock.com">sourcing@chemstock.com</a>
             <a href="tel:+17157261437">715-726-1437</a>
           </div>
         </div>

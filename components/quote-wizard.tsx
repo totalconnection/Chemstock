@@ -274,8 +274,8 @@ export default function QuoteWizard() {
             <Phone size={17} />
             715-726-1437
           </a>
-          <a href="mailto:evelyn@chemstock.com">
-            evelyn@chemstock.com <ArrowUpRight size={14} />
+          <a href="mailto:sourcing@chemstock.com">
+            sourcing@chemstock.com <ArrowUpRight size={14} />
           </a>
         </div>
       </div>
@@ -338,7 +338,7 @@ export default function QuoteWizard() {
               )}
             </p>
             <div className="request-preview">
-              <span>To: evelyn@chemstock.com</span>
+              <span>To: sourcing@chemstock.com</span>
               <pre>{request.body}</pre>
             </div>
             <QuoteDelivery
@@ -356,7 +356,7 @@ export default function QuoteWizard() {
                   setCopied(true);
                 } catch {
                   setError(
-                    'Copy the request text above and email it to evelyn@chemstock.com.',
+                    'Copy the request text above and email it to sourcing@chemstock.com.',
                   );
                 }
               }}

@@ -63,7 +63,7 @@ export const organizationSchema = {
   logo: absoluteUrl('/images/chemstock-logo.svg'),
   foundingDate: '2001',
   description: 'Independent specialty and industrial chemical distribution.',
-  email: 'evelyn@chemstock.com',
+  email: 'sourcing@chemstock.com',
   telephone: '+1-715-726-1437',
   address: {
     '@type': 'PostalAddress',

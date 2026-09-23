@@ -72,8 +72,8 @@ export default function Accessibility() {
       <h2>Tell us about a barrier</h2>
       <p>
         Email{' '}
-        <a href="mailto:evelyn@chemstock.com?subject=Website%20accessibility%20assistance">
-          evelyn@chemstock.com
+        <a href="mailto:sourcing@chemstock.com?subject=Website%20accessibility%20assistance">
+          sourcing@chemstock.com
         </a>{' '}
         or call <a href="tel:+17157261437">715-726-1437</a>. Please include the
         page or document, the task you were trying to complete, and the

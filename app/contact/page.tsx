@@ -21,7 +21,7 @@ export default function Contact() {
             <h2>Talk to our team.</h2>
             <div className="contact-detail">
               <small>Email</small>
-              <a href="mailto:evelyn@chemstock.com">evelyn@chemstock.com ↗</a>
+              <a href="mailto:sourcing@chemstock.com">sourcing@chemstock.com ↗</a>
             </div>
             <div className="contact-detail">
               <small>Phone</small>
@@ -60,7 +60,7 @@ export default function Contact() {
               </p>
               <a
                 className="text-link"
-                href="mailto:evelyn@chemstock.com?subject=Product%20documentation%20request"
+                href="mailto:sourcing@chemstock.com?subject=Product%20documentation%20request"
               >
                 Request product documents <Mail size={17} />
               </a>
@@ -84,7 +84,7 @@ export default function Contact() {
             {
               question: 'How do I request an SDS or product specification?',
               answer:
-                'Email evelyn@chemstock.com with the material name and required grade. SDS, product specifications, and supplier documentation are provided on request. Confirm the documents for the proposed source and grade before qualification.',
+                'Email sourcing@chemstock.com with the material name and required grade. SDS, product specifications, and supplier documentation are provided on request. Confirm the documents for the proposed source and grade before qualification.',
             },
             {
               question:

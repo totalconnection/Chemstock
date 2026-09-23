@@ -34,7 +34,7 @@ Configure:
 1. A **private** R2 bucket bound as `LEADS`. Keep public access disabled.
 2. A random `ADMIN_TOKEN` secret of at least 32 characters. Share through a password manager. Rotate by replacing the secret.
 3. Cloudflare Turnstile `TURNSTILE_SITE_KEY` and secret `TURNSTILE_SECRET`, restricted to the deployed hostname. Production submissions fail closed until configured.
-4. Resend `RESEND_API_KEY` and `EMAIL_FROM` using a verified sending domain. The recipient is fixed in the backend to `evelyn@chemstock.com`; the buyer's email is Reply-To.
+4. Resend `RESEND_API_KEY` and `EMAIL_FROM` using a verified sending domain. The recipient is fixed in the backend to `sourcing@chemstock.com`; the buyer's email is Reply-To.
 
 The service stores a lead before trying notification. Failed or unconfigured notifications remain visible in the workspace, with a retry action. Provider idempotency keys use the lead reference. Large specification files are stored privately and accessed in the workspace rather than attached to notification emails.
 

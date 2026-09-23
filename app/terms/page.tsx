@@ -113,7 +113,7 @@ export default function Terms() {
       <h2>Contact</h2>
       <p>
         Questions about the website can be directed to{' '}
-        <a href="mailto:evelyn@chemstock.com">evelyn@chemstock.com</a> or{' '}
+        <a href="mailto:sourcing@chemstock.com">sourcing@chemstock.com</a> or{' '}
         <a href="tel:+17157261437">715-726-1437</a>. Mailing address: Chemstock
         Inc., P.O. Box 33, Farmingdale, NJ 07727.
       </p>

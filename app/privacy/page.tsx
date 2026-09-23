@@ -19,7 +19,7 @@ export default function Privacy() {
         Chemstock Inc. operates this chemical catalogue and sourcing website.
         This policy covers information collected through the website, quote
         requests, and related communications. Contact us at{' '}
-        <a href="mailto:evelyn@chemstock.com">evelyn@chemstock.com</a>,{' '}
+        <a href="mailto:sourcing@chemstock.com">sourcing@chemstock.com</a>,{' '}
         <a href="tel:+17157261437">715-726-1437</a>, or P.O. Box 33,
         Farmingdale, NJ 07727.
       </p>
@@ -58,7 +58,7 @@ export default function Privacy() {
         </li>
         <li>
           <strong>Resend:</strong> sends quote notifications to Chemstock at
-          evelyn@chemstock.com. The notification contains your request details
+          sourcing@chemstock.com. The notification contains your request details
           and filenames, with your email as the reply address. Uploaded file
           contents are stored separately and are not attached to these automated
           notifications. See{' '}

@@ -77,7 +77,7 @@ export default async function ProductPage({
     'methyl-methacrylate',
   ].includes(p.slug);
   const request = (document: string) =>
-    'mailto:evelyn@chemstock.com?subject=' +
+    'mailto:sourcing@chemstock.com?subject=' +
     encodeURIComponent(document + ': ' + p.name + ' (CAS ' + p.cas + ')') +
     '&body=' +
     encodeURIComponent(
@@ -556,8 +556,8 @@ export default async function ProductPage({
             <div className="aside-contact">
               <span>Direct access to our team</span>
               <a href="tel:+17157261437">715-726-1437</a>
-              <a href="mailto:evelyn@chemstock.com">
-                <Mail size={15} /> evelyn@chemstock.com
+              <a href="mailto:sourcing@chemstock.com">
+                <Mail size={15} /> sourcing@chemstock.com
               </a>
             </div>
           </div>

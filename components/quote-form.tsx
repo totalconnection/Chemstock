@@ -21,7 +21,7 @@ export default function QuoteForm() {
         };
         const body = `Hello Chemstock,\n\nI would like a quote for:\nProduct: ${field('product')}\nCAS number: ${field('cas')}\nQuantity: ${field('quantity')}\nGrade / specifications: ${field('specs')}\nDelivery destination: ${field('destination')}\nRequired timing: ${field('timing')}\n\nName: ${field('name')}\nCompany: ${field('company')}\nEmail: ${field('email')}\n\nThank you.`;
         setEmailLink(
-          'mailto:evelyn@chemstock.com?subject=' +
+          'mailto:sourcing@chemstock.com?subject=' +
             encodeURIComponent('Sourcing request: ' + product) +
             '&body=' +
             encodeURIComponent(body),
@@ -122,7 +122,7 @@ export default function QuoteForm() {
             <Mail size={18} /> Open email draft
           </a>
           <p className="small-copy">
-            No email app configured? Email evelyn@chemstock.com with the details
+            No email app configured? Email sourcing@chemstock.com with the details
             above.
           </p>
         </div>

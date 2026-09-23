@@ -48,8 +48,8 @@ export function Header() {
           <span>Chemstock Inc. · Independent since 2001.</span>
           <span>
             <a href="tel:+17157261437">715-726-1437</a>
-            <a href="mailto:evelyn@chemstock.com">
-              evelyn@chemstock.com <span aria-hidden="true">↗</span>
+            <a href="mailto:sourcing@chemstock.com">
+              sourcing@chemstock.com <span aria-hidden="true">↗</span>
             </a>
           </span>
         </div>
@@ -123,7 +123,7 @@ export function Footer() {
             <h3>Get in touch</h3>
             <div className="footer-links">
               <a href="tel:+17157261437">715-726-1437</a>
-              <a href="mailto:evelyn@chemstock.com">evelyn@chemstock.com</a>
+              <a href="mailto:sourcing@chemstock.com">sourcing@chemstock.com</a>
               <span>
                 P.O. Box 33
                 <br />
