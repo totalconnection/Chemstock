@@ -1,0 +1,20 @@
+import { PageHero, CTA } from '../../components/site';
+import Catalogue from '../../components/catalogue';
+export const metadata = { title: 'Chemical catalogue' };
+export default function CataloguePage() {
+  return (
+    <main id="main">
+      <PageHero
+        label="Chemical catalogue"
+        title="Find your next material."
+        description="Search our featured chemicals by name, CAS number, formula, or synonym. Need something else? We’re ready to help source it."
+      />
+      <section className="section">
+        <div className="container">
+          <Catalogue />
+        </div>
+      </section>
+      <CTA />
+    </main>
+  );
+}
