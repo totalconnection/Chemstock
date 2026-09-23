@@ -11,7 +11,8 @@
     "start": "vinext dev",
     "lint": "oxlint",
     "format": "oxfmt",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:export": "node scripts/validate-export.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

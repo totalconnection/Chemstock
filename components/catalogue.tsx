@@ -10,13 +10,15 @@ import {
   SelectValue,
 } from './ui/select';
 import { useLocationSearch } from '../lib/use-location-search';
-import { industries, searchProducts } from '../lib/catalogue';
+import { industries, products, searchProducts } from '../lib/catalogue';
 export default function Catalogue() {
   const queryString = useLocationSearch();
   const params = new URLSearchParams(queryString);
   const [qOverride, setQ] = useState<string | null>(null);
   const [industryOverride, setIndustry] = useState<string | null>(null);
   const [form, setForm] = useState('all');
+  const [family, setFamily] = useState('all');
+  const [pagination, setPagination] = useState({ key: '', page: 0 });
   const q = qOverride ?? params.get('q') ?? '';
   const requestedIndustry = params.get('industry');
   const industry =
@@ -43,7 +45,7 @@ export default function Catalogue() {
           {
             name: 'search_chemstock_catalogue',
             description:
-              'Search the three currently published Chemstock chemical records and update the visible catalogue results. This does not confirm stock or availability.',
+              'Search the published Chemstock chemical records and update the visible catalogue results. This does not confirm stock or availability.',
             inputSchema: {
               type: 'object',
               properties: {
@@ -82,6 +84,7 @@ export default function Catalogue() {
                 setQ(value.query);
                 setIndustry(value.industry || 'all');
                 setForm('all');
+                setFamily('all');
               });
               return searchProducts(value.query, value.industry || 'all').map(
                 (p) => ({
@@ -98,14 +101,51 @@ export default function Catalogue() {
     } catch {}
     return () => controller.abort();
   }, []);
-  const results = searchProducts(q, industry, form);
-  const filtered = q || industry !== 'all' || form !== 'all';
+  const results = searchProducts(q, industry, form).filter(
+    (p) => family === 'all' || p.family === family,
+  );
+  const families = [...new Set(products.map((p) => p.family))].sort();
+  const filtered =
+    q || industry !== 'all' || form !== 'all' || family !== 'all';
+  const pageKey = JSON.stringify([q, industry, form, family]);
+  const pageSize = 24;
+  const pageCount = Math.ceil(results.length / pageSize);
+  const page =
+    pagination.key === pageKey
+      ? Math.min(pagination.page, Math.max(0, pageCount - 1))
+      : 0;
+  const visibleResults = results.slice(page * pageSize, (page + 1) * pageSize);
+  function changePage(next: number) {
+    setPagination({ key: pageKey, page: next });
+    document
+      .getElementById('catalogue-results')
+      ?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    document
+      .getElementById('catalogue-results')
+      ?.focus({ preventScroll: true });
+  }
   return (
     <div className="catalogue-layout">
       <aside className="filter-panel">
         <h2>
           <SlidersHorizontal size={18} /> Refine your search
         </h2>
+        <label htmlFor="family-filter">Chemical family</label>
+        <Select value={family} onValueChange={(v) => setFamily(v || 'all')}>
+          <SelectTrigger id="family-filter" className="filter-select">
+            <SelectValue>
+              {family === 'all' ? 'All families' : family}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent className="select-options">
+            <SelectItem value="all">All families</SelectItem>
+            {families.map((name) => (
+              <SelectItem key={name} value={name}>
+                {name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <label htmlFor="industry-filter">Industry</label>
         <Select value={industry} onValueChange={(v) => setIndustry(v || 'all')}>
           <SelectTrigger id="industry-filter" className="filter-select">
@@ -130,7 +170,7 @@ export default function Catalogue() {
             <SelectValue>{form === 'all' ? 'All forms' : form}</SelectValue>
           </SelectTrigger>
           <SelectContent className="select-options">
-            {['all', 'Solid', 'Liquid'].map((x) => (
+            {['all', ...new Set(products.map((p) => p.form))].map((x) => (
               <SelectItem key={x} value={x}>
                 {x === 'all' ? 'All forms' : x}
               </SelectItem>
@@ -144,6 +184,7 @@ export default function Catalogue() {
               setQ('');
               setIndustry('all');
               setForm('all');
+              setFamily('all');
             }}
           >
             <X size={15} /> Clear filters
@@ -177,13 +218,18 @@ export default function Catalogue() {
         </div>
         <div className="results-bar">
           <span aria-live="polite">
-            {results.length} {results.length === 1 ? 'chemical' : 'chemicals'}
+            {results.length} {results.length === 1 ? 'product' : 'products'}
             {filtered ? ' matching your search' : ' in this collection'}
           </span>
           <span>Alphabetical · A–Z</span>
         </div>
-        <div className="catalogue-results">
-          {results.map((p) => (
+        <div
+          id="catalogue-results"
+          className="catalogue-results"
+          tabIndex={-1}
+          aria-label="Chemical search results"
+        >
+          {visibleResults.map((p) => (
             <article className="result-card" key={p.slug}>
               <div>
                 <span className="product-category">{p.family}</span>
@@ -214,6 +260,29 @@ export default function Catalogue() {
             </article>
           ))}
         </div>
+        {pageCount > 1 && (
+          <nav className="catalogue-pagination" aria-label="Catalogue pages">
+            <button
+              className="btn outline"
+              disabled={page === 0}
+              onClick={() => changePage(page - 1)}
+            >
+              Previous
+            </button>
+            <span aria-live="polite">
+              Page {page + 1} of {pageCount} · {page * pageSize + 1}–
+              {Math.min((page + 1) * pageSize, results.length)} of{' '}
+              {results.length}
+            </span>
+            <button
+              className="btn outline"
+              disabled={page + 1 >= pageCount}
+              onClick={() => changePage(page + 1)}
+            >
+              Next
+            </button>
+          </nav>
+        )}
         {results.length === 0 && (
           <div className="no-results">
             <Search size={35} />
@@ -228,6 +297,7 @@ export default function Catalogue() {
                 setQ('');
                 setIndustry('all');
                 setForm('all');
+                setFamily('all');
               }}
             >
               Clear search
@@ -241,8 +311,8 @@ export default function Catalogue() {
           </div>
         )}
         <p className="catalogue-note">
-          A selection of Chemstock’s published products. Contact us to confirm
-          the grade, documentation, packaging, and availability for your
+          Chemstock’s published product listings. Contact us to confirm the
+          grade, documentation, packaging, and availability for your
           application.
         </p>
       </div>

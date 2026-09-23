@@ -1,0 +1,33 @@
+{
+  "PropertyTable": {
+    "Properties": [
+      {
+        "CID": 444266,
+        "MolecularFormula": "C4H4O4",
+        "MolecularWeight": "116.07",
+        "ConnectivitySMILES": "C(=CC(=O)O)C(=O)O",
+        "InChI": "InChI=1S/C4H4O4/c5-3(6)1-2-4(7)8/h1-2H,(H,5,6)(H,7,8)/b2-1-",
+        "InChIKey": "VZCYOOQTPOCHFL-UPHRSURJSA-N",
+        "IUPACName": "(Z)-but-2-enedioic acid"
+      },
+      {
+        "CID": 5192,
+        "MolecularFormula": "C10H18O4",
+        "MolecularWeight": "202.25",
+        "ConnectivitySMILES": "C(CCCCC(=O)O)CCCC(=O)O",
+        "InChI": "InChI=1S/C10H18O4/c11-9(12)7-5-3-1-2-4-6-8-10(13)14/h1-8H2,(H,11,12)(H,13,14)",
+        "InChIKey": "CXMXRPHRNRROMY-UHFFFAOYSA-N",
+        "IUPACName": "decanedioic acid"
+      },
+      {
+        "CID": 6658,
+        "MolecularFormula": "C5H8O2",
+        "MolecularWeight": "100.12",
+        "ConnectivitySMILES": "CC(=C)C(=O)OC",
+        "InChI": "InChI=1S/C5H8O2/c1-4(2)5(6)7-3/h1H2,2-3H3",
+        "InChIKey": "VVQNEPGJFQJSBK-UHFFFAOYSA-N",
+        "IUPACName": "methyl 2-methylprop-2-enoate"
+      }
+    ]
+  }
+}

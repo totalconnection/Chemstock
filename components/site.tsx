@@ -16,11 +16,11 @@ export function Brand() {
         />
         <path
           d="m31 15-10-6-11 7v15l11 7 10-6"
-          stroke="#83b84e"
+          stroke="#e5323c"
           strokeWidth="4"
           strokeLinejoin="round"
         />
-        <circle cx="35" cy="24" r="5" fill="#83b84e" />
+        <circle cx="35" cy="24" r="5" fill="#e5323c" />
       </svg>
       <span className="brand-name">
         chem<b>stock</b>

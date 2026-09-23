@@ -21,17 +21,19 @@ Cloudflare static hosting: https://developers.cloudflare.com/pages/framework-gui
 
 ## Current scope
 
-Home, About, Industries, Contact, Request a quote, Chemical catalogue, three chemical detail pages, Privacy, Accessibility, Terms, and a not-found page. A modern SVG logo is included in public/images/chemstock-logo.svg.
+Home, About, Industries, Contact, Request a quote, Chemical catalogue with individual product pages, Privacy, Accessibility, Terms, and a not-found page. The retained SVG logo is included in public/images/chemstock-logo.svg.
 
-The catalogue contains three representative products from the existing Chemstock site. This is not a complete catalogue migration. Search accepts product names, CAS numbers, synonyms, formulas, families, and application terms. Industry and physical-form filters operate on this selected collection.
+The catalogue combines Chemstock's individual published product pages with its five-page specialty-chemicals brochure. Search accepts product names, verified CAS numbers, synonyms, formulas, families, and application terms. Chemical-family, industry, and physical-form filters and 24-result pagination support the larger collection. Brochure-only entries have not been enriched with guessed identities, specifications, certifications, or availability. Source-listed commercial grades are product records, not necessarily distinct pure substances. Incomplete source names require business review.
 
-The quote tool prepares a mailto draft. It does not submit, store, or send anything on its own. A visitor must open and send the draft in their email client. Replace this with a connected form service or server endpoint if browser-only submissions and lead tracking are needed. Railway is one possible backend host, not a prerequisite; Cloudflare Functions or a form service would also work.
+The four-step quote wizard collects material, quantity, timing, and contact details, then prepares a mailto draft. It does not submit, store, or send anything on its own. A visitor must open and send the draft in their email client. Replace this with a connected form service or server endpoint if browser-only submissions and lead tracking are needed. Railway is one possible backend host, not a prerequisite; Cloudflare Functions or a form service would also work.
+
+Enterprise product pages separate published typical specifications from general reference properties, with source links. SDS, TDS, CoA, and supplier certifications remain available on request; no compliance or supplier certification is inferred from a reference source.
 
 ## Before production launch
 
 - Import and verify the complete chemical catalogue, classifications, documents, specifications, packaging, and availability language. Do not treat typical product specs as current guaranteed specifications.
 - Confirm product data with Chemstock's source records. CAS numbers and formulas were cross-checked against PubChem, with source URLs retained in lib/catalogue.ts.
-- Approve the new logo and company copy. Confirm the photo reuse rights for the existing Chemstock homepage image.
+- Review company copy. The user selected the current website logo. Confirm the photo reuse rights for the existing Chemstock homepage image.
 - Review Privacy and Terms drafts with the business and legal adviser. Confirm legal entity, processing practices, retention, providers, applicable jurisdiction, and effective dates. Draft notices are intentionally visible until that review.
 - Complete keyboard, screen-reader, mobile, and browser QA. The accessibility page deliberately does not claim audited conformance.
 - Review and remove preview-only robots restrictions: public/robots.txt, X-Robots-Tag in public/_headers, and robots metadata in app/layout.tsx. Add a production sitemap after the catalogue is finalized.
@@ -43,7 +45,7 @@ Hero image copied from the user's existing Chemstock website:
 https://chemstock.com/wp-content/uploads/2022/09/AdobeStock_199067491-scaled.jpeg
 No new stock photo license was purchased.
 
-Logo: original code-native geometric C / chemical-ring concept, navy #112e4b, green #83b84e. Vector source is editable.
+Logo: code-native geometric C / chemical-ring concept retained at the user's request. The palette now uses cobalt, red, charcoal, and white. Vector source is editable. Unselected ImageGen explorations remain local design references and are not applied to the website.
 
 ## Optional browser-agent support
 
