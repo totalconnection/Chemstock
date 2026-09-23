@@ -90,7 +90,7 @@ export default async function IndustryPage({
           <div className="section-heading">
             <div>
               <span className="eyebrow">Sourcing considerations</span>
-              <h2>Built around your application.</h2>
+              <h2>Sourcing requirements.</h2>
             </div>
           </div>
           <div className="values-grid">
@@ -109,7 +109,7 @@ export default async function IndustryPage({
           <div className="section-heading">
             <div>
               <span className="eyebrow">Explore the catalogue</span>
-              <h2>Materials to start the conversation.</h2>
+              <h2>Related materials.</h2>
             </div>
             <a className="text-link" href={'/catalogue/?industry=' + key}>
               View all related materials <ArrowUpRight size={17} />
@@ -172,7 +172,7 @@ export default async function IndustryPage({
           </div>
           <div>
             <span className="eyebrow">A direct conversation</span>
-            <h2>Talk through the details with Chemstock.</h2>
+            <h2>Contact our sourcing team.</h2>
             <p>
               Send your specification, explain the application, or ask which
               documents to request for supplier qualification.

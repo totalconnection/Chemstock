@@ -45,7 +45,7 @@ export function Header() {
       </a>
       <div className="utility">
         <div className="container">
-          <span>Your chemical sourcing partner. Since 2001.</span>
+          <span>Chemstock Inc. · Independent since 2001.</span>
           <span>
             <a href="tel:+17157261437">715-726-1437</a>
             <a href="mailto:evelyn@chemstock.com">
@@ -97,9 +97,9 @@ export function Footer() {
           <div className="footer-brand">
             <Brand />
             <p>
-              The right chemistry.
+              Specialty and industrial chemical distribution.
               <br />
-              The right sourcing partner.
+              Established 2001.
             </p>
           </div>
           <div>
@@ -151,15 +151,13 @@ export function CTA() {
     <div className="container">
       <section className="cta">
         <div>
-          <h2>Let’s find your next solution.</h2>
+          <h2>Send your requirements.</h2>
           <p>
-            A specific material. A challenging specification. A tight deadline.
-            <br />
-            Tell us what you need, and we’ll get to work.
+            Include the material, grade, quantity, and delivery destination.
           </p>
         </div>
         <a href="/quote/" className="btn">
-          Talk to our sourcing team <ArrowUpRight size={19} />
+          Request a quote <ArrowUpRight size={19} />
         </a>
       </section>
     </div>

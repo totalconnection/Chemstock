@@ -16,14 +16,17 @@ export default function ProductSearch({
   onPick,
   label = 'Search chemicals',
   name,
+  id,
 }: {
   value?: string;
   onChange?: (value: string) => void;
   onPick?: (name: string, cas: string) => void;
   label?: string;
   name?: string;
+  id?: string;
 }) {
   const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
   const input = value ?? query;
   const results = input.trim() ? searchProducts(input).slice(0, 7) : [];
   return (
@@ -33,8 +36,12 @@ export default function ProductSearch({
         items={results.map((p) => p.slug)}
         filter={null}
         value={null}
+        open={open}
+        onOpenChange={setOpen}
         inputValue={input}
-        onInputValueChange={(v) => {
+        onInputValueChange={(v, details) => {
+          if (details.reason !== 'input-change') return;
+          setOpen(!!v.trim());
           setQuery(v);
           onChange?.(v);
         }}
@@ -49,6 +56,7 @@ export default function ProductSearch({
         }}
       >
         <ComboboxInput
+          id={id}
           name={name}
           aria-label={label}
           placeholder="Chemical name, CAS number, or synonym"

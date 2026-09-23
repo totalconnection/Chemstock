@@ -9,11 +9,7 @@ export default function Blog() {
     <main id="main">
       <section className="blog-hero container">
         <span className="eyebrow">The Chemstock blog</span>
-        <h1>
-          A closer look
-          <br />
-          <em>at chemistry.</em>
-        </h1>
+        <h1>Blog</h1>
         <p>Perspectives on materials, applications, and chemical sourcing.</p>
       </section>
       <section className="container blog-empty">
@@ -21,7 +17,7 @@ export default function Blog() {
           <BookOpen size={32} strokeWidth={1.3} />
         </div>
         <div>
-          <h2>Our first articles are on the way.</h2>
+          <h2>No articles published yet.</h2>
           <p>
             There are no published posts yet. In the meantime, explore the
             catalogue or talk with our sourcing team.

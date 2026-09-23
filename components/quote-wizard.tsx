@@ -248,12 +248,8 @@ export default function QuoteWizard() {
         <a href="/catalogue/" className="wizard-back">
           <ArrowLeft size={15} /> Back to catalogue
         </a>
-        <div className="eyebrow">Let’s find your chemistry</div>
-        <h1>
-          Your next solution.
-          <br />
-          <em>A few simple steps.</em>
-        </h1>
+        <div className="eyebrow">Chemical sourcing</div>
+        <h1>Request a quote.</h1>
         <p>
           Tell us what you need. We’ll help you work through the sourcing
           details.
@@ -414,7 +410,8 @@ export default function QuoteWizard() {
                       {usingBasket
                         ? '✓ Using your quote list'
                         : 'Use your saved quote list'}{' '}
-                      · {basket.length} products
+                      · {basket.length}{' '}
+                      {basket.length === 1 ? 'product' : 'products'}
                     </button>
                   )}
                   {usingBasket ? (
@@ -746,7 +743,7 @@ export default function QuoteWizard() {
                         <dt>Material</dt>
                         <dd>
                           {usingBasket
-                            ? `${basket.length} products in your quote list`
+                            ? `${basket.length} ${basket.length === 1 ? 'product' : 'products'} in your quote list`
                             : values.mode === 'help'
                               ? 'Sourcing assistance'
                               : values.product}
@@ -799,7 +796,7 @@ export default function QuoteWizard() {
                 </button>
               ) : (
                 <span className="wizard-control-note">
-                  No commitment. Just a conversation.
+                  No purchase commitment.
                 </span>
               )}
               <button type="submit" className="btn wizard-next">

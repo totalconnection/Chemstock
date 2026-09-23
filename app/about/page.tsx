@@ -6,8 +6,8 @@ export default function About() {
     <main id="main">
       <PageHero
         label="About Chemstock"
-        title="Behind every material, a real partnership."
-        description="Independent thinking. International connections. Personal commitment to your chemical sourcing needs."
+        title="About Chemstock."
+        description="A privately owned chemical distributor serving manufacturing and formulation businesses since 2001."
       />
       <section className="section">
         <div className="container story-grid">
@@ -47,7 +47,7 @@ export default function About() {
           <div className="section-heading">
             <div>
               <div className="eyebrow">The way we work</div>
-              <h2>Your requirements set the direction.</h2>
+              <h2>How we work.</h2>
             </div>
           </div>
           <div className="values-grid">
@@ -106,7 +106,7 @@ export default function About() {
           </div>
           <div>
             <span className="eyebrow">Your direct contact</span>
-            <h2>A conversation with Evelyn.</h2>
+            <h2>Contact Evelyn.</h2>
             <p>
               Share the material, specification, and timeline. Start with an
               email or a call, and work through the sourcing details with

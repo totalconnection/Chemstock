@@ -7,7 +7,7 @@ export default function Industries() {
     <main id="main">
       <PageHero
         label="Industries"
-        title="Specialized chemistry. Across your world."
+        title="Industries we serve."
         description="Explore the markets we serve. We’ll help you connect your application with the right sourcing options."
       />
       <section className="section">

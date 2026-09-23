@@ -6,7 +6,7 @@ export default function Contact() {
     <main id="main">
       <PageHero
         label="Contact"
-        title="Let’s make the right connection."
+        title="Contact Chemstock."
         description="A material to find, a specification to discuss, or a question about an order. Start a conversation with Chemstock."
       />
       <section className="section">

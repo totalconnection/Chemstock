@@ -6,7 +6,7 @@ export default function CataloguePage() {
     <main id="main">
       <PageHero
         label="Chemical catalogue"
-        title="Find your next material."
+        title="Chemical catalogue."
         description="Explore our chemical catalogue by name, CAS number, formula, or synonym. Need something else? We’re ready to help source it."
       />
       <section className="section">
