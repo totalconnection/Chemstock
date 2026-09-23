@@ -1,3 +1,7 @@
+export const metadata = {
+  title: 'Page not found',
+  robots: { index: false, follow: false },
+};
 import { PageHero } from '../components/site';
 export default function NotFound() {
   return (

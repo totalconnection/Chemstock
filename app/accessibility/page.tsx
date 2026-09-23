@@ -1,5 +1,10 @@
+import { pageMetadata } from '../../lib/seo';
 import { LegalPage } from '../../components/legal';
-export const metadata = { title: 'Accessibility' };
+export const metadata = pageMetadata(
+  'Accessibility',
+  'Learn about accessibility on our website and how to contact our team for help using the catalogue or requesting a quote.',
+  '/accessibility/',
+);
 export default function Accessibility() {
   return (
     <LegalPage

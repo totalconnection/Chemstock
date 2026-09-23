@@ -1,6 +1,12 @@
+import { ProductFAQ } from '../../components/product-faq';
+import { pageMetadata } from '../../lib/seo';
 import { ArrowUpRight, Mail } from 'lucide-react';
 import { PageHero } from '../../components/site';
-export const metadata = { title: 'Contact' };
+export const metadata = pageMetadata(
+  'Contact & Chemical Documentation Requests',
+  'Contact Chemstock for chemical sourcing, SDS, grade specifications, and supplier documentation. Send your material requirements to Evelyn.',
+  '/contact/',
+);
 export default function Contact() {
   return (
     <main id="main">
@@ -61,6 +67,39 @@ export default function Contact() {
             </section>
           </div>
         </div>
+      </section>
+      <section
+        className="container section"
+        aria-labelledby="sourcing-questions"
+      >
+        <h2 id="sourcing-questions">Chemical sourcing questions</h2>
+        <ProductFAQ
+          items={[
+            {
+              question:
+                'What information should I include in a chemical quote request?',
+              answer:
+                'Provide the material name or CAS number, required grade or specification, quantity, delivery destination, and timing. You can include multiple materials and upload a purchasing list or specification in the quote wizard.',
+            },
+            {
+              question: 'How do I request an SDS or product specification?',
+              answer:
+                'Email evelyn@chemstock.com with the material name and required grade. SDS, product specifications, and supplier documentation are provided on request. Confirm the documents for the proposed source and grade before qualification.',
+            },
+            {
+              question:
+                'Does a catalogue listing confirm stock or availability?',
+              answer:
+                'No. Contact Chemstock to confirm current availability, packaging, minimum order requirements, lead time, and grade. A catalogue listing is a starting point for a sourcing enquiry.',
+            },
+            {
+              question:
+                'Can I request a chemical that is not in the catalogue?',
+              answer:
+                'Yes. Send the chemical name, CAS number if known, and your application or specification. Chemstock will review your sourcing requirement.',
+            },
+          ]}
+        />
       </section>
     </main>
   );

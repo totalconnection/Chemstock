@@ -1,5 +1,10 @@
+import { pageMetadata } from '../../lib/seo';
 import { LegalPage } from '../../components/legal';
-export const metadata = { title: 'Terms of service' };
+export const metadata = pageMetadata(
+  'Terms of Service',
+  'Read the terms for using the Chemstock website, catalogue information, and chemical sourcing enquiry services.',
+  '/terms/',
+);
 export default function Terms() {
   return (
     <LegalPage

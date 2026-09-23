@@ -1,3 +1,5 @@
+import { organizationSchema, siteUrl } from '../lib/seo';
+import { StructuredData } from '../components/structured-data';
 import type { Metadata } from 'next';
 import './globals.css';
 import { Header, Footer } from '../components/site';
@@ -6,6 +8,10 @@ export const metadata: Metadata = {
     default: 'Chemstock | Specialty Chemical Sourcing',
     template: '%s | Chemstock',
   },
+  metadataBase: new URL(siteUrl),
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   icons: { icon: '/favicon.svg' },
   robots: { index: false, follow: false },
   description:
@@ -17,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <StructuredData data={organizationSchema} />
         <Header />
         {children}
         <Footer />

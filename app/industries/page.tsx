@@ -1,7 +1,12 @@
+import { pageMetadata } from '../../lib/seo';
 import { ArrowUpRight } from 'lucide-react';
 import { PageHero, CTA } from '../../components/site';
 import { industries } from '../../lib/catalogue';
-export const metadata = { title: 'Industries' };
+export const metadata = pageMetadata(
+  'Chemical Supply by Industry',
+  'Explore chemical sourcing for coatings, plastics, industrial processes, oil and gas, nutrition, personal care, flavor, and food applications.',
+  '/industries/',
+);
 export default function Industries() {
   return (
     <main id="main">

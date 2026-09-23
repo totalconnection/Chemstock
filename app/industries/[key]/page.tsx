@@ -1,3 +1,5 @@
+import { pageMetadata, breadcrumbSchema } from '../../../lib/seo';
+import { StructuredData } from '../../../components/structured-data';
 import { notFound } from 'next/navigation';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { industries, products } from '../../../lib/catalogue';
@@ -12,7 +14,14 @@ export async function generateMetadata({
   params: Promise<{ key: string }>;
 }) {
   const { key } = await params;
-  return { title: industries.find((i) => i.key === key)?.name || 'Industry' };
+  const industry = industries.find((i) => i.key === key);
+  return industry
+    ? pageMetadata(
+        `${industry.name} Chemical Sourcing`,
+        industryGuides[key].intro,
+        `/industries/${key}/`,
+      )
+    : { title: 'Industry not found', robots: { index: false } };
 }
 export default async function IndustryPage({
   params,
@@ -27,6 +36,13 @@ export default async function IndustryPage({
   const families = [...new Set(matches.map((p) => p.family))];
   return (
     <main id="main">
+      <StructuredData
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Industries', path: '/industries/' },
+          { name: industry.name, path: `/industries/${key}/` },
+        ])}
+      />
       <section className="industry-hero">
         <div className="container">
           <div className="breadcrumb">
@@ -67,8 +83,10 @@ export default async function IndustryPage({
             src={
               '/images/' +
               (key === 'plastics' ? 'plastics' : 'coatings') +
-              '-application.jpg'
+              '-application-1200.webp'
             }
+            srcSet={`/images/${key === 'plastics' ? 'plastics' : 'coatings'}-application-640.webp 640w, /images/${key === 'plastics' ? 'plastics' : 'coatings'}-application-1200.webp 1200w`}
+            sizes="(max-width: 760px) 100vw, 90vw"
             alt={
               key === 'plastics'
                 ? 'Plastic film production equipment'

@@ -12,7 +12,8 @@
     "lint": "oxlint",
     "format": "oxfmt",
     "typecheck": "tsc --noEmit",
-    "validate:export": "node scripts/validate-export.mjs"
+    "validate:export": "node scripts/validate-export.mjs",
+    "validate:seo": "node scripts/validate-seo.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

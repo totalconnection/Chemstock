@@ -3800,3 +3800,31 @@ h3 {
 .utility a > span[aria-hidden] {
   display: none;
 }
+
+.sourcing-answer {
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+.sourcing-answer summary {
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.sourcing-answer p {
+  margin: 14px 0 0;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.material-directory {
+  margin-top: 40px;
+}
+.material-directory ul {
+  list-style: none;
+  padding: 20px 0;
+  columns: 3 240px;
+}
+.material-directory li {
+  break-inside: avoid;
+  padding: 8px 0;
+  font-size: 0.9rem;
+}

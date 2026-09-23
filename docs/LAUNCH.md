@@ -36,7 +36,7 @@ Enterprise product pages separate published typical specifications from general 
 - Review company copy. The user selected the current website logo. Confirm the photo reuse rights for the existing Chemstock homepage image.
 - Review Privacy and Terms drafts with the business and legal adviser. Confirm legal entity, processing practices, retention, providers, applicable jurisdiction, and effective dates. Draft notices are intentionally visible until that review.
 - Complete keyboard, screen-reader, mobile, and browser QA. The accessibility page deliberately does not claim audited conformance.
-- Review and remove preview-only robots restrictions: public/robots.txt, X-Robots-Tag in public/_headers, and robots metadata in app/layout.tsx. Add a production sitemap after the catalogue is finalized.
+- Follow docs/SEO.md for the production-only CHEMSTOCK_INDEXABLE=true build setting, domain verification, sitemap submission, and post-launch checks. Keep preview builds non-indexable. The sitemap and crawler headers are generated during export.
 - Confirm the chosen hosting account and domain ownership; connect Chemstock.com only after review. Preserve any existing mail DNS records.
 
 ## Assets

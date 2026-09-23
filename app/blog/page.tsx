@@ -1,9 +1,11 @@
+import { pageMetadata } from '../../lib/seo';
 import { ArrowUpRight, BookOpen } from 'lucide-react';
-export const metadata = {
-  title: 'Blog',
-  description:
-    'Future articles and perspectives from Chemstock on chemical sourcing and industry applications.',
-};
+export const metadata = pageMetadata(
+  'Blog',
+  'Chemical sourcing and industry articles from Chemstock. No articles are published yet; explore our catalogue or contact the sourcing team.',
+  '/blog/',
+  true,
+);
 export default function Blog() {
   return (
     <main id="main">

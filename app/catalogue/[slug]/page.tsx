@@ -1,3 +1,5 @@
+import { pageMetadata, breadcrumbSchema, absoluteUrl } from '../../../lib/seo';
+import { StructuredData } from '../../../components/structured-data';
 import { AddToQuote } from '../../../components/quote-basket';
 import { notFound } from 'next/navigation';
 import {
@@ -37,14 +39,15 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const p = products.find((p) => p.slug === slug);
-  return {
-    title: p
-      ? /^\d{2,7}-\d{2}-\d$/.test(p.cas)
-        ? `${p.name} · CAS ${p.cas}`
-        : p.name
-      : 'Chemical not found',
-    description: p?.description,
-  };
+  if (!p) return { title: 'Chemical not found', robots: { index: false } };
+  const title = /^\d{2,7}-\d{2}-\d$/.test(p.cas)
+    ? `${p.name} · CAS ${p.cas}`
+    : p.name;
+  return pageMetadata(
+    title,
+    `${p.name}${/^\d/.test(p.cas) ? ` (CAS ${p.cas})` : ''}: review chemical identity, applications, and sourcing requirements. Request grade specifications, SDS, and a quote from Chemstock.`,
+    `/catalogue/${p.slug}/`,
+  );
 }
 function Formula({ value }: { value: string }) {
   return (
@@ -91,6 +94,27 @@ export default async function ProductPage({
   ];
   return (
     <main id="main" className="chemical-page">
+      <StructuredData
+        data={breadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Chemical catalogue', path: '/catalogue/' },
+          { name: p.name, path: `/catalogue/${p.slug}/` },
+        ])}
+      />
+      <StructuredData
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          '@id': absoluteUrl(`/catalogue/${p.slug}/#product`),
+          name: p.name,
+          description: p.description,
+          url: absoluteUrl(`/catalogue/${p.slug}/`),
+          category: p.family,
+          additionalProperty: /^\d{2,7}-\d{2}-\d$/.test(p.cas)
+            ? [{ '@type': 'PropertyValue', name: 'CAS number', value: p.cas }]
+            : undefined,
+        }}
+      />
       <section className="chemical-hero">
         <div className="container">
           <div className="breadcrumb">

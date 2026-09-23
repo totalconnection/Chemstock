@@ -1,5 +1,10 @@
+import { pageMetadata } from '../../lib/seo';
 import { LegalPage } from '../../components/legal';
-export const metadata = { title: 'Privacy policy' };
+export const metadata = pageMetadata(
+  'Privacy Policy',
+  'Read how Chemstock handles website enquiries, quote details, uploaded specifications, and contact information.',
+  '/privacy/',
+);
 export default function Privacy() {
   return (
     <LegalPage

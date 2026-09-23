@@ -1,6 +1,11 @@
+import { pageMetadata } from '../../lib/seo';
 import { ArrowUpRight, Globe2, Handshake, ClipboardCheck } from 'lucide-react';
 import { PageHero, CTA } from '../../components/site';
-export const metadata = { title: 'About us' };
+export const metadata = pageMetadata(
+  'About Chemstock',
+  'Independent specialty chemical distribution since 2001. Learn about our sourcing approach and contact our New Jersey-based team.',
+  '/about/',
+);
 export default function About() {
   return (
     <main id="main">

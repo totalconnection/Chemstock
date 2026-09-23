@@ -1,3 +1,10 @@
+import { StructuredData } from '../components/structured-data';
+import { pageMetadata } from '../lib/seo';
+export const metadata = pageMetadata(
+  'Specialty Chemical Sourcing & Distribution',
+  'Chemstock sources specialty and industrial chemicals for manufacturing and formulation. Browse materials, request specifications, and send your purchasing requirements.',
+  '/',
+);
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import ProductSearch from '../components/product-search';
 import { products, industries } from '../lib/catalogue';
@@ -21,6 +28,16 @@ const featured = [
 export default function Home() {
   return (
     <main id="main" className="home-revised">
+      <StructuredData
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          '@id': 'https://chemstock.com/#website',
+          name: 'Chemstock',
+          url: 'https://chemstock.com/',
+          publisher: { '@id': 'https://chemstock.com/#organization' },
+        }}
+      />
       <section className="home-intro container">
         <div className="home-intro-copy">
           <p className="section-label">
@@ -61,10 +78,13 @@ export default function Home() {
         </div>
         <figure className="home-warehouse">
           <img
-            src="/images/chemstock-hero.jpg"
+            src="/images/chemstock-hero-1200.webp"
+            srcSet="/images/chemstock-hero-640.webp 640w, /images/chemstock-hero-1200.webp 1200w"
+            sizes="(max-width: 760px) 100vw, 40vw"
+            fetchPriority="high"
             alt="Chemical drums in an industrial warehouse"
-            width="1000"
-            height="1150"
+            width="1200"
+            height="800"
           />
           <figcaption>Specialty chemicals / Industrial supply</figcaption>
         </figure>
