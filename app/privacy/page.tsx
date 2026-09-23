@@ -110,8 +110,20 @@ export default function Privacy() {
         request, its text is placed on your device’s clipboard.
       </p>
       <p>
-        The current website does not install advertising pixels, third-party
-        audience analytics, or session-replay tools. We do not sell website
+        If you allow analytics, Google Analytics uses cookies to measure page
+        visits and interactions, with technical information such as browser,
+        device, and approximate location. Google processes this information to
+        provide website usage reports. The Google tag is loaded only after you
+        choose Allow analytics. Advertising storage and personalization are
+        disabled. We do not send quote contents or uploaded documents to Google
+        Analytics. Your analytics choice is stored in this browser. You can
+        change it using Analytics preferences at the bottom of the page;
+        declining stops further tracking and removes this site’s Analytics
+        cookies. See{' '}
+        <a href="https://policies.google.com/privacy">Google’s privacy policy</a>.
+      </p>
+      <p>
+        We do not install advertising pixels or session-replay tools, or sell website
         inquiry information or share it for cross-context behavioral
         advertising. Essential hosting and security technologies may operate
         when you use the site; blocking them may prevent online submission. You
