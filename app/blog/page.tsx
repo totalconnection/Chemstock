@@ -1,3 +1,4 @@
+import { formatBlogDate } from '../../lib/blog';
 import { pageMetadata } from '../../lib/seo';
 import { ArrowUpRight } from 'lucide-react';
 import posts from '../../lib/blog-posts.json';
@@ -20,7 +21,7 @@ export default function Blog() {
             <span className="eyebrow">{post.product}</span>
             <h2><a href={`/blog/${post.slug}/`}>{post.title}</a></h2>
             <p>{post.description}</p>
-            <div className="published-blog-meta"><time dateTime={post.publishedAt}>September 23, 2026</time><span>{Math.ceil(post.wordCount / 200)} min read</span></div>
+            <div className="published-blog-meta"><time dateTime={post.publishedAt}>{formatBlogDate(post.publishedAt)}</time><span>{Math.ceil(post.wordCount / 200)} min read</span></div>
             <a className="text-link" href={`/blog/${post.slug}/`}>Read guide <ArrowUpRight size={17} /></a>
           </article>
         ))}
